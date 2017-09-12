@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\File;
+
+use App\Jobs\ExtractFileText;
+use App\Http\Requests\StorePdfFile;
+
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -33,9 +37,19 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePdfFile $request)
     {
-        //
+        $file_path = 'files/' . $request->user()->id . '/';
+        $request->file->storeAs($file_path, $request->name, 'local');
+
+		$file = new File;
+        $file->name = $request->name;
+        $file->description = $request->description;
+        $request->user()->files()->save($file);
+
+        dispatch(new ExtractFileText($file, $file_path));
+
+        return redirect()->route('files.index');
     }
 
     /**

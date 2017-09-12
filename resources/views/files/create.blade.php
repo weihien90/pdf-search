@@ -9,7 +9,7 @@
                     <h3 class="box-title">Upload PDF File</h3>
                 </div>
                 <div class="box-body">
-					<form class="form-horizontal" method="POST" action="{{ route('files.create') }}">
+					<form class="form-horizontal" method="POST" enctype="multipart/form-data" action="{{ route('files.store') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -30,7 +30,7 @@
                             <label for="description" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control" name="description" required>
+                                <input id="description" type="text" class="form-control" name="description" value="{{ old('description') }}" required>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">

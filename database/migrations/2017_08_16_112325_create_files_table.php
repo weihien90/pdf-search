@@ -17,8 +17,9 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
-            $table->mediumText('content');
+            $table->mediumText('content')->nullable()->default(null);
             $table->integer('user_id')->unsigned();
+            $table->boolean('status')->nullable()->default(null);
             $table->timestamps();
         });
     }
