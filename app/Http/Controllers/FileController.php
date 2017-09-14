@@ -8,6 +8,7 @@ use App\Jobs\ExtractFileText;
 use App\Http\Requests\StorePdfFile;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FileController extends Controller
 {
@@ -16,9 +17,14 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $files = $request->user()
+            ->files()
+            ->select( DB::raw('id, name, description, LEFT(content, 100) as content') )
+            ->get();
+
+        return view('files.index', compact('files'));
     }
 
     /**
