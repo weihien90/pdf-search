@@ -23,9 +23,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        // Limit the retrieved content when resolving File model
+        Route::bind('file', function ($value) {
+            return \App\File::whereId($value)
+                ->subContent(200)
+                ->first();
+        });
     }
 
     /**
