@@ -6,6 +6,7 @@ use App\File;
 
 use App\Jobs\ExtractFileText;
 use App\Http\Requests\StorePdfFile;
+use App\Http\Requests\UpdatePdfFile;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class FileController extends Controller
      */
     public function index(Request $request)
     {
-        return $files = $request->user()
+        $files = $request->user()
             ->files()
             ->subContent(100)
             ->get();
@@ -76,7 +77,7 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        //
+        return view('files.edit', compact('file'));
     }
 
     /**
@@ -86,9 +87,13 @@ class FileController extends Controller
      * @param  \App\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, File $file)
+    public function update(UpdatePdfFile $request, File $file)
     {
-        //
+        $file->name = $request->name;
+        $file->description = $request->description;
+        $file->save();
+
+        return redirect()->route('files.index');
     }
 
     /**
