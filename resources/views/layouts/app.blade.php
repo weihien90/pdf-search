@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
@@ -29,6 +29,6 @@
 		@include('layouts._right-sidebar')
 	</div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
